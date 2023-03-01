@@ -1,0 +1,53 @@
+from zad6testy import runtests
+from queue import Queue
+
+class Node:
+    def __init__(self,nazwa):
+        self.nazwa=nazwa
+        self.visited=False
+        self.d=0
+
+
+def longer(G,s,t):
+    tab = []
+    for i in range(len(G)):
+        tab.append(Node(i))
+    q = Queue()
+    q.put(s)
+    tab[s].visited = True
+    while not q.empty():
+        u = q.get()
+        for i in G[u]:
+            if not tab[i].visited:
+                tab[i].visited = True
+                tab[i].d = tab[u].d + 1
+                q.put(i)
+
+    for i in range(len(G)):
+        tab[i].visited=False
+
+    q.put(t)
+    tab[t].visited = True
+    while not q.empty():
+        u = q.get()
+        czas = tab[u].d
+        if q.empty():
+            licznik=0
+            for i in G[u]:
+                if tab[i].d<czas:
+                    licznik+=1
+                    zapisz=i
+
+            if licznik==1:
+                return ((zapisz,u))
+
+        for i in G[u]:
+            if not tab[i].visited:
+                tab[i].visited = True
+                if tab[i].d<czas:
+                    q.put(i)
+	
+    return None
+	 
+runtests( longer, all_tests = True )
+

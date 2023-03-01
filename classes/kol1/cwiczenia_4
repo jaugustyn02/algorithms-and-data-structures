@@ -1,0 +1,16 @@
+1. Posortować tablicę A - n-elementową
+	elementy A należą do 0-n^2-1
+	
+Rozwiązanie:
+	posortować radix sortem najpierw po wartości A[i]%n
+	następnie po A[i]//n
+	złożoność O(n)
+	
+2. Posortować tab A - n-elementowa O(nloglogn)
+	elementy w A należą do B
+	logn-1 < |B| <= logn
+	
+3.Słowa A i B o dł. n
+	Sprawdzić czy A i B są anagramami
+	a) O(n+k) k-rozmiar
+

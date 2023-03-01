@@ -1,0 +1,87 @@
+from zad9testy import runtests
+from math import inf
+from queue import Queue
+from copy import deepcopy
+
+
+def print_tab(A):
+    for row in A:
+        print(row)
+    print()
+
+
+def przeplywy(tab,s,t,num_verdex):
+    def bfs(tab, s, num_verdex, t):
+        nonlocal visited, parent
+        visited = [False for i in range(num_verdex)]
+        # parent = [None for j in range(num_verdex + 1)]
+        q = Queue()
+        visited[s] = True
+        q.put(s)
+        while not q.empty():
+            u = q.get()
+            for i in range(len(tab[u])):
+                if not visited[i] and tab[u][i] != 0:
+                    visited[i] = True
+                    parent[i] = u
+                    q.put(i)
+        return visited[t]
+
+    maksy_flow=0
+    visited = [False for _ in range(num_verdex)]
+    parent = [None for _ in range(num_verdex)]
+
+    while bfs(tab,s,num_verdex,t):
+        v=t
+        flow=inf
+        while v!=s:
+            flow=min(flow,tab[parent[v]][v])
+            v=parent[v]
+        maksy_flow+=flow
+        v=t
+        while v!=s:
+            tab[parent[v]][v]-=flow
+            tab[v][parent[v]]+=flow
+            v=parent[v]
+
+    return maksy_flow
+
+
+def maxflow( G,s ):
+    wynik = 0
+    num_verdex = 0
+    for e in G:
+        if e[0] > num_verdex:
+            num_verdex = e[0]
+        elif e[1] > num_verdex:
+            num_verdex = e[1]
+    num_verdex += 1
+    tablica = [[0 for _ in range(num_verdex)] for _ in range(num_verdex)]
+    max_przyplyw = [[0, i] for i in range(num_verdex)]
+    for e in G:
+        tablica[e[0]][e[1]] = e[2]
+        max_przyplyw[e[1]][0] += e[2]
+    tab = deepcopy(tablica)
+
+    max_przyplyw.sort(reverse=True)
+
+    for i in range(num_verdex-1):
+        if max_przyplyw[i][0] + max_przyplyw[i+1][0] <= wynik:
+            break
+        for j in range(i+1, num_verdex):
+            mp_p, p = max_przyplyw[i]
+            mp_q, q = max_przyplyw[j]
+            if mp_p + mp_q <= wynik:
+                break
+            if p != s and q != s:
+                tab[p][q] = inf
+
+                a = przeplywy(tab, s, q, num_verdex)
+
+                if wynik < a:
+                    wynik = a
+                tab = deepcopy(tablica)
+    return wynik
+
+# zmien all_tests na True zeby uruchomic wszystkie testy
+runtests( maxflow, all_tests = True )
