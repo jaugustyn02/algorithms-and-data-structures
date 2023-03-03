@@ -1,7 +1,7 @@
 # Jan Augustyn
 # Algorytm składa się z 2 części:
 # 1) Sortowanie listy L (rosnąco po 1 wartości, malejąco po 2 wartości) - co gwarantuje, że każdy
-# kolejny przedział w liście na pewno nie zawiera w sobie poprzedniego lub jest równy poprzedniemu.
+# kolejny przedział w liście nie zawiera w sobie poprzedniego lub jest równy poprzedniemu.
 # 2) Na przejściu po liście L i zliczaniu kolejnym przedziałom zawieranych przedziałów.
 # Algorytm został zoptymalizowany w główny stopniu poprzez zapamiętywanie i pomijanie przedziałów,
 # które są zawierane, przez zastosowanie wyszukiwania binarnego do określania zasięgu przeszukiwania
