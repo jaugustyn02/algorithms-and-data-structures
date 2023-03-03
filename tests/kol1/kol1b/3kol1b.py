@@ -1,5 +1,4 @@
 # Jan Augustyn
-# no kurwa
 
 from kol1btesty import runtests
 
